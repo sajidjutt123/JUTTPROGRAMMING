@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CodeSharp | Home</title>
+<style>
+body { font-family: 'Poppins', sans-serif; margin:0; background: linear-gradient(135deg,#0f172a,#1e3a8a); color:#f9fafb; min-height:100vh; display:flex; flex-direction:column;}
+header { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); color:#fff; padding:20px 0; text-align:center;}
+.container { flex:1; padding:40px 5%; text-align:center; }
+.search-bar { margin-bottom: 30px; }
+.search-bar input { padding:8px 15px; width:250px; border-radius:8px; border:none; margin-right:10px; }
+.search-bar button { padding:8px 15px; border:none; border-radius:8px; background:#2563eb; color:#fff; cursor:pointer; }
+.search-bar button:hover { background:#1e40af; }
+.problem-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px; }
+.problem-card { background: rgba(255,255,255,0.1); border-radius:15px; padding:20px; box-shadow:0 0 15px rgba(255,255,255,0.05); transition:0.3s; }
+.problem-card h3 { color:#facc15; font-size:1.2em; }
+.btn { display:inline-block; margin-top:10px; background:#2563eb; color:#fff; padding:8px 16px; border-radius:8px; text-decoration:none; cursor:pointer; border:none; }
+.btn:hover { background:#1e40af; }
+footer { background: rgba(255,255,255,0.1); padding:15px 0; text-align:center; font-size:0.9em; color:#cbd5e1;}
+</style>
+</head>
+<body>
+<header>
+    <h1>💻 Jutt's CodeSharp | Home</h1>
+</header>
+
+<div class="container">
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Enter problem name..." onkeypress="handleEnter(event)">
+        <button onclick="searchProblem()">Go</button>
+    </div>
+    <h2>100+ Programming Practice Problems</h2>
+    <div class="problem-grid" id="problemList"></div>
+</div>
+<footer>© 2025 CodeSharp | Practice Makes Perfect 💪</footer>
+
+<script>
+// List of 100+ problems
+const problems = [
+  'Disarium Number','Armstrong Number','Perfect Number','Strong Number','Palindrome Number',
+  'Prime Number','Composite Number','Harshad Number','Abundant Number','Deficient Number',
+  'Automorphic Number','Spy Number','Magic Number','Neon Number','Happy Number',
+  'Duck Number','Buzz Number','Evil Number','Sunny Number','Kaprekar Number',
+  'Fibonacci Series','Factorial Calculation','LCM of Two Numbers','GCD of Two Numbers','Reverse a Number',
+  'Sum of Digits','Product of Digits','Check Leap Year','Binary to Decimal','Decimal to Binary',
+  'Perfect Square Check','Largest Digit','Smallest Digit','Co-Prime Numbers','Even or Odd',
+  'Prime in Range','Count Digits','Power of a Number','Armstrong in Range','Sum of Even Digits',
+  'Sum of Odd Digits','Strong in Range','Display Prime Numbers','Fibonacci till N','Sum of Series',
+  'Pattern 1','Pattern 2','Pattern 3','ASCII Value Finder','Simple Calculator',
+  'Swap Two Numbers','Positive or Negative','Temperature Converter','Area of Circle','Area of Triangle',
+  'Area of Rectangle','Volume of Sphere','Volume of Cylinder','ASCII Character Type','Vowel or Consonant',
+  'Maximum of Three Numbers','Minimum of Three Numbers','Digit Check','Alphabet Case Check','Count Vowels',
+  'Count Consonants','Reverse String','Palindrome String','Remove Spaces','String Length',
+  'Uppercase String','Lowercase String','Word Count','Special Characters Count','Check Anagram',
+  'Repeated Characters Count','Character Frequency','Sum of Array Elements','Maximum in Array','Minimum in Array',
+  'Second Largest in Array','Even Numbers in Array','Odd Numbers in Array','Reverse Array','Sort Ascending',
+  'Sort Descending','Merge Arrays','Matrix Addition','Matrix Multiplication','Transpose of Matrix',
+  'Identity Matrix Check','Diagonal Sum','Factorial using Recursion','Fibonacci using Recursion',
+  'Binary Search','Linear Search','Bubble Sort','Selection Sort','Insertion Sort',
+  'Prime using Function','Armstrong using Function','Perfect Number using Function','Strong Number using Function'
+];
+
+const container = document.getElementById('problemList');
+
+problems.forEach((p,i)=>{
+    const card = document.createElement('div');
+    card.className='problem-card';
+    card.id = `problem-${i}`;
+    card.innerHTML = `
+        <h3>${i+1}. ${p}</h3>
+        <button class='btn' onclick="openPractice('${p}')">Practice</button>
+        <button class='btn' onclick="openSolution('${p}')">See Solution</button>
+    `;
+    container.appendChild(card);
+});
+
+function openPractice(problem){
+    window.location.href = `practice.html?problem=${encodeURIComponent(problem)}`;
+}
+function openSolution(problem){
+    window.location.href = `solution.html?problem=${encodeURIComponent(problem)}`;
+}
+
+// Search function (Go button & Enter)
+function searchProblem(){
+    const input = document.getElementById('searchInput').value.trim().toLowerCase().replace(/\s+/g, ' ');
+    if(!input) return;
+
+    const index = problems.findIndex(p => p.toLowerCase().replace(/\s+/g, ' ') === input); // ignore case & extra spaces
+    if(index !== -1){
+        const element = document.getElementById(`problem-${index}`);
+        element.scrollIntoView({behavior: "smooth", block: "center"});
+        element.style.transition = "background 0.5s";
+        element.style.background = "rgba(250,204,21,0.3)";
+        setTimeout(()=>{element.style.background="rgba(255,255,255,0.1)";},1500);
+    } else {
+        alert("Problem not found. Please enter the correct name.");
+    }
+}
+
+// Handle Enter key in input
+function handleEnter(event){
+    if(event.key === "Enter"){
+        searchProblem();
+    }
+}
+</script>
+</body>
+</html>

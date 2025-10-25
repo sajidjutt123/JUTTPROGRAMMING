@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CodeSharp | Practice</title>
+<style>
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    background: #0f172a;
+    color: #f9fafb;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+header {
+    background: #1e293b;
+    color: #facc15;
+    padding: 15px 20px;
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+#practiceContainer {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    overflow-y: auto;
+}
+textarea {
+    width: 100%;
+    flex: 1;
+    background: #111827;
+    color: #f9fafb;
+    padding: 20px;
+    border-radius: 10px;
+    font-family: monospace;
+    font-size: 1em;
+    resize: vertical;
+    white-space: pre;
+}
+#preview {
+    background: #1e293b;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+    white-space: pre-wrap;
+    word-break: break-word;
+    flex: none;
+}
+.btn {
+    display: inline-block;
+    margin-top: 20px;
+    background: #2563eb;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: none;
+}
+.btn:hover { background: #1e40af; }
+.buttonContainer {
+    text-align: center;
+    margin-top: 10px;
+}
+</style>
+</head>
+<body>
+
+<header id="problemTitle">Problem Name</header>
+
+<div id="practiceContainer">
+    <textarea id="codeArea" placeholder="// Type your C++ code here"></textarea>
+    
+    <div class="buttonContainer">
+        <button class="btn" onclick="previewCode()">Preview Code</button>
+        <button class="btn" onclick="goHome()">Back to Home</button>
+    </div>
+
+    <pre id="preview">// Your code preview will appear here</pre>
+</div>
+
+<script>
+// Get problem name from URL
+const urlParams = new URLSearchParams(window.location.search);
+const problemName = urlParams.get('problem');
+const titleEl = document.getElementById('problemTitle');
+if(problemName){
+    titleEl.textContent = problemName;
+}
+
+// Preview code in the box below
+function previewCode(){
+    const code = document.getElementById('codeArea').value;
+    document.getElementById('preview').textContent = code || "// Nothing to preview";
+}
+
+// Back to home
+function goHome(){
+    window.location.href = 'index.html';
+}
+</script>
+
+</body>
+</html>
