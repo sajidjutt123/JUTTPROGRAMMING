@@ -5,8 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CodeSharp | Home</title>
 <style>
-body { font-family: 'Poppins', sans-serif; margin:0; background: linear-gradient(135deg,#0f172a,#1e3a8a); color:#f9fafb; min-height:100vh; display:flex; flex-direction:column;}
-header { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); color:#fff; padding:20px 0; text-align:center;}
+body { font-family: 'Poppins', sans-serif; margin:0; background: linear-gradient(135deg,#0f172a,#1e3a8a); color:#f9fafb; min-height:100vh; display:flex; flex-direction:column; transition: background 0.3s, color 0.3s;}
+body.dark-mode { background: linear-gradient(135deg,#1e1e1e,#2c3e50); color:#e0e0e0; }
+header { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); color:#fff; padding:20px 0; text-align:center; position:sticky; top:0; z-index:100;}
+header.dark-mode { background: rgba(0,0,0,0.3);}
 .container { flex:1; padding:40px 5%; text-align:center; }
 .search-bar { margin-bottom: 30px; }
 .search-bar input { padding:8px 15px; width:250px; border-radius:8px; border:none; margin-right:10px; }
@@ -18,11 +20,27 @@ header { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); color:#
 .btn { display:inline-block; margin-top:10px; background:#2563eb; color:#fff; padding:8px 16px; border-radius:8px; text-decoration:none; cursor:pointer; border:none; }
 .btn:hover { background:#1e40af; }
 footer { background: rgba(255,255,255,0.1); padding:15px 0; text-align:center; font-size:0.9em; color:#cbd5e1;}
+
+/* Scroll to top button */
+#scrollTopBtn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px 15px;
+  display: none;
+  background-color: #ff5722;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  z-index: 200;
+}
 </style>
 </head>
 <body>
 <header>
     <h1>💻 Jutt's CodeSharp | Home</h1>
+    <button onclick="toggleDarkMode()" style="margin-top:10px; padding:6px 12px; border:none; border-radius:6px; cursor:pointer; background:#facc15;">Toggle Dark Mode</button>
 </header>
 
 <div class="container">
@@ -30,13 +48,17 @@ footer { background: rgba(255,255,255,0.1); padding:15px 0; text-align:center; f
         <input type="text" id="searchInput" placeholder="Enter problem name..." onkeypress="handleEnter(event)">
         <button onclick="searchProblem()">Go</button>
     </div>
+
     <h2>100+ Programming Practice Problems</h2>
     <div class="problem-grid" id="problemList"></div>
 </div>
+
 <footer>© 2025 CodeSharp | Practice Makes Perfect 💪</footer>
 
+<button id="scrollTopBtn" onclick="scrollToTop()">↑ Top</button>
+
 <script>
-// List of 100+ problems
+// Your original full problem array
 const problems = [
   'Disarium Number','Armstrong Number','Perfect Number','Strong Number','Palindrome Number',
   'Prime Number','Composite Number','Harshad Number','Abundant Number','Deficient Number',
@@ -63,18 +85,22 @@ const problems = [
 
 const container = document.getElementById('problemList');
 
+// Original problem cards generation
 problems.forEach((p,i)=>{
     const card = document.createElement('div');
     card.className='problem-card';
     card.id = `problem-${i}`;
     card.innerHTML = `
         <h3>${i+1}. ${p}</h3>
-        <button class='btn' onclick="openPractice('${p}')">Practice</button>
-        <button class='btn' onclick="openSolution('${p}')">See Solution</button>
+        <div>
+            <button class='btn' onclick="openPractice('${p}')">Practice</button>
+            <button class='btn' onclick="openSolution('${p}')">See Solution</button>
+        </div>
     `;
     container.appendChild(card);
 });
 
+// Original navigation functions
 function openPractice(problem){
     window.location.href = `practice.html?problem=${encodeURIComponent(problem)}`;
 }
@@ -82,12 +108,12 @@ function openSolution(problem){
     window.location.href = `solution.html?problem=${encodeURIComponent(problem)}`;
 }
 
-// Search function (Go button & Enter)
+// Original search function
 function searchProblem(){
     const input = document.getElementById('searchInput').value.trim().toLowerCase().replace(/\s+/g, ' ');
     if(!input) return;
 
-    const index = problems.findIndex(p => p.toLowerCase().replace(/\s+/g, ' ') === input); // ignore case & extra spaces
+    const index = problems.findIndex(p => p.toLowerCase().replace(/\s+/g, ' ') === input);
     if(index !== -1){
         const element = document.getElementById(`problem-${index}`);
         element.scrollIntoView({behavior: "smooth", block: "center"});
@@ -98,12 +124,19 @@ function searchProblem(){
         alert("Problem not found. Please enter the correct name.");
     }
 }
+function handleEnter(event){ if(event.key === "Enter"){ searchProblem(); } }
 
-// Handle Enter key in input
-function handleEnter(event){
-    if(event.key === "Enter"){
-        searchProblem();
-    }
+// Scroll-to-top
+window.onscroll = function() {
+    const btn = document.getElementById("scrollTopBtn");
+    btn.style.display = (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) ? "block" : "none";
+};
+function scrollToTop(){ window.scrollTo({ top:0, behavior:'smooth' }); }
+
+// Dark mode toggle
+function toggleDarkMode(){
+    document.body.classList.toggle('dark-mode');
+    document.querySelector('header').classList.toggle('dark-mode');
 }
 </script>
 </body>
